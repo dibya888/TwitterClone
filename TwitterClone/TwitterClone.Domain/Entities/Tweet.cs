@@ -25,7 +25,13 @@
         public string Content
         {
             get { return _content; }
-            set { _content = value; }
+            set {
+                if (value.Length > 280)
+                {
+                    throw new ArgumentException("Tweet Cannot exceed 280 characters");
+                }
+                _content = value; 
+            }
         }
     }
 }
