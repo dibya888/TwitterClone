@@ -2,15 +2,22 @@
 {
     public class Bookmark
     {
+        private Guid _id;
         private Guid _userId;
         private Guid _tweetId;
         private DateTime _bookmarkedAt;
+        private DateTime _modifiedAt;
 
         public Bookmark(Guid userId, Guid tweetId)
         {
+            _id = Guid.NewGuid();
             _userId = userId;
             _tweetId = tweetId;
-            _bookmarkedAt = DateTime.Now;
+            _bookmarkedAt = DateTime.UtcNow;
+        }
+        public Guid Id
+        {
+            get { return _id; }
         }
         public Guid UserId
         {
@@ -23,6 +30,11 @@
         public DateTime BookmarkedAt
         {
             get { return _bookmarkedAt; }
+        }
+        public DateTime ModifiedAt
+        {
+            get { return _modifiedAt; }
+            set {  _modifiedAt = value; }
         }
     }
 }
