@@ -1,25 +1,15 @@
 ﻿namespace TwitterClone.Domain.Entities
 {
-    public class Retweet
+    public class Retweet : BaseEntity
     {
-        private Guid _id;
         private Guid _userId;
         private Guid _tweetId;
         private string _content;
-        private DateTime _retweetedAt;
-        private DateTime _modifiedAt;
 
-        public Retweet(Guid userId, Guid tweetId)
+        public Retweet(Guid userId, Guid tweetId) : base(Guid.NewGuid())
         {
-            _id = Guid.NewGuid();
             _userId = userId;
             _tweetId = tweetId;
-            _retweetedAt = DateTime.UtcNow;
-        }
-
-        public Guid Id
-        {
-            get { return _id; }
         }
 
         public Guid UserId
@@ -43,17 +33,6 @@
                 }
                 _content = value;
             }
-        }
-
-        public DateTime RetweetedAt
-        {
-            get { return _retweetedAt; }
-        }
-
-        public DateTime ModifiedAt
-        {
-            get { return _modifiedAt; }
-            set { _modifiedAt = value; }
         }
     }
 }
