@@ -6,20 +6,23 @@ namespace TwitterClone.Domain.Entities
 {
     public class LikeNotification : Notification
     {
-        public LikeNotification(Guid likeByUserId, string message) : base(likeByUserId, message, "Like")
+        public LikeNotification(Guid likeByUserId, Guid tweetId) : base(likeByUserId, "Like")
         {
-
+            TweetId = tweetId;
         }
 
-        public void AddMessage(string message)
-        {
-            Message = message;
-        }
+        public Guid TweetId { get; private set; }
+
 
         public override string DescribeRecord()
         {
             var baseRecord = base.DescribeRecord();
-            return $"{baseRecord} - Notification Type: {Type}, Message: {Message}, IsRead: {IsRead}, LikedByUserId: {UserId}";
+            return $"{baseRecord} - Notification Type: {Type}, IsRead: {IsRead}, LikedByUserId: {UserId}";
+        }
+
+        public override string GetMessage()
+        {
+            return $"User {UserId} liked your tweet: {TweetId}";
         }
     }
 }

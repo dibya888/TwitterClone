@@ -6,7 +6,7 @@ namespace TwitterClone.Domain.Entities
 {
     public class CommentNotification : Notification
     {
-        public CommentNotification(Guid commentedByUserId, string message) : base(commentedByUserId, message, "Comment")
+        public CommentNotification(Guid commentedByUserId) : base(commentedByUserId, "Comment")
         {
 
         }
@@ -14,7 +14,12 @@ namespace TwitterClone.Domain.Entities
         public override string DescribeRecord()
         {
             var baseRecord = base.DescribeRecord();
-            return $"{baseRecord} - Notification Type: {Type}, Message: {Message}, IsRead: {IsRead}, CommentedByUserId: {UserId}";
+            return $"{baseRecord} - Notification Type: {Type}, IsRead: {IsRead}, CommentedByUserId: {UserId}";
+        }
+
+        public override string GetMessage()
+        {
+            return $"User {UserId} commented on your tweet.";
         }
     }
 }
