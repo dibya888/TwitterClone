@@ -6,14 +6,21 @@ namespace TwitterClone.Domain.Entities
 {
     public class SystemNotification : Notification
     {
-        public SystemNotification(Guid userId, string message) : base(userId, message, "System")
+        private string _message;
+        public SystemNotification(Guid userId, string message) : base(userId, "System")
         {
+            _message = message;
         }
 
         public override string DescribeRecord()
         {
             var baseRecord = base.DescribeRecord();
-            return $"{baseRecord} - Notification Type: {Type}, Message: {Message}, IsRead: {IsRead}, UserId: {UserId}";
+            return $"{baseRecord} - Notification Type: {Type}, IsRead: {IsRead}, UserId: {UserId}";
+        }
+
+        public override string GetMessage()
+        {
+            return $"System Notification for User {UserId}: {_message}";
         }
     }
 }
