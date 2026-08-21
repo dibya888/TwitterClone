@@ -12,6 +12,8 @@
             _tweetId = tweetId;
         }
 
+        public static string MaxContentLength => "280";
+
         public Guid UserId
         {
             get { return _userId; }
@@ -27,9 +29,9 @@
             get { return _content; }
             set
             {
-                if (value!=null && value.Length > 280)
+                if (value!=null && value.Length > int.Parse(Retweet.MaxContentLength))
                 {
-                    throw new ArgumentException("Tweet Cannot exceed 280 characters");
+                    throw new ArgumentException("Retweet content cannot exceed 280 characters");
                 }
                 _content = value;
             }
