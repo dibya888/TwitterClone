@@ -1,6 +1,6 @@
 ﻿namespace TwitterClone.Domain.Entities
 {
-    public class User : BaseEntity
+    public class User : BaseEntity, IFollowable, INotifiable
     {
         private string _firstName;
         private string _lastName;
@@ -27,6 +27,33 @@
         {
             get { return _email; }
             set { _email = value; }
+        }
+
+        private List<Guid> _followers = new List<Guid>();
+        private List<Guid> _InCommingNotifications = new List<Guid>();
+
+        public void Follow(Guid followerId)
+        {
+            if(_followers.Contains(followerId))
+            {
+                _followers.Add(followerId);
+            }
+        }
+
+        public void Unfollow(Guid followerId)
+        {
+            if (_followers.Contains(followerId))
+            {
+                _followers.Remove(followerId);
+            }
+        }
+
+        public void AddNotification(Guid notificationId)
+        {
+            if(!_InCommingNotifications.Contains(notificationId))
+            {
+                _InCommingNotifications.Add(notificationId);
+            }
         }
 
     }
