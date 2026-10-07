@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Mvc;
+using TwitterClone.Api.Attributes;
 using TwitterClone.Domain.Entities;
 
 namespace TwitterClone.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TwitterController : ControllerBase
+    public class TwittersController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        public TwitterController(
+        public TwittersController(
             IConfiguration configuration)
         {
             _configuration = configuration;
