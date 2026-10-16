@@ -10,7 +10,7 @@ namespace TwitterClone.Domain.Entities
         public DateTime CreatedAt { get; private set; }
         public DateTime? ModifiedAt { get; private set; }
         public Guid CreatedBy { get; private set; }
-        public Guid? Modifiedby { get; private set; }
+        public Guid? ModifiedBy { get; private set; }
 
 
         public BaseEntity(Guid id)                 //Constructor
@@ -21,7 +21,7 @@ namespace TwitterClone.Domain.Entities
 
         public virtual string DescribeRecord()
         {
-            return $"Base Entity: Id: {Id}, CreatedAt: {CreatedAt}, ModifiedAt: {ModifiedAt}, CreatedBy: {CreatedBy}, Modifiedby: {Modifiedby}";
+            return $"Base Entity: Id: {Id}, CreatedAt: {CreatedAt}, ModifiedAt: {ModifiedAt}, CreatedBy: {CreatedBy}, ModifiedBy: {ModifiedBy}";
         }
     }
 }
