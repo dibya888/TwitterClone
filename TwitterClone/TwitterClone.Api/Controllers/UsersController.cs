@@ -16,7 +16,7 @@ namespace TwitterClone.Api.Controllers
         private readonly UserRepository _userRepository;
 
         public UsersController(
-            UserRepository userRepository) 
+            UserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -43,8 +43,8 @@ namespace TwitterClone.Api.Controllers
         [AllowAnonymous]
         public IActionResult CreateUser([FromBody] CreateUserDto createUserDto)
         {
-            if(string.IsNullOrWhiteSpace(createUserDto.FirstName) || 
-               string.IsNullOrWhiteSpace(createUserDto.LastName) || 
+            if(string.IsNullOrWhiteSpace(createUserDto.FirstName) ||
+               string.IsNullOrWhiteSpace(createUserDto.LastName) ||
                string.IsNullOrWhiteSpace(createUserDto.Email))
             {
                 return BadRequest("All fields are required.");

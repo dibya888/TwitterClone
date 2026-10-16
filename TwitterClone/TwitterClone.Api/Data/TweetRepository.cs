@@ -18,7 +18,7 @@ namespace TwitterClone.Api.Data
             _tweets.Add(tweet);
             return tweet;
         }
-        
+
         public bool DeleteTweet(Tweet tweet)
         {
             return _tweets.Remove(tweet);
