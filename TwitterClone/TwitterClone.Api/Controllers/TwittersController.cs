@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TwitterClone.Api.Attributes;
 using TwitterClone.Domain.Entities;
 
 namespace TwitterClone.Api.Controllers
