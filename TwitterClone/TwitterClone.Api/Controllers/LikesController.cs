@@ -1,92 +1,75 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace TwitterClone.Api.Controllers
 {
+
+    // api/likes
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class LikesController : ControllerBase
     {
-        public LikesController()
-        {
-        }
 
-        // POST: api/Likes
-        [HttpPost]
-        public IActionResult LikePost()
-        {
-            return Ok(new
-            {
-                likeId = Guid.NewGuid(),
-                message = "Post liked successfully!"
-            });
-        }
+        public LikesController() { }
 
 
-        // GET: api/Likes/{likeId}
-        [HttpGet("{likeId}")]
-        public IActionResult GetLikeById(Guid likeId)
-        {
-            return Ok(new
-            {
-                likeId = likeId,
-                message = "Like details retrieved successfully!"
-            });
-        }
-
-
-        // DELETE: api/Likes/{likeId}
-        [HttpDelete("{likeId}")]
-        public IActionResult UnlikePost(Guid likeId)
-        {
-            return Ok(new
-            {
-                likeId = likeId,
-                message = "Post unliked successfully!"
-            });
-        }
-
-        // GET: api/Likes
+        // GET /api/likes?userId={userId}&tweetId={tweetId}
         [HttpGet]
-        public IActionResult GetLikes()
+        public IActionResult GetLikes([FromQuery] Guid? userId, [FromQuery] Guid? tweetId)
         {
-            var likes = new List<object>
+            return Ok(new List<object>
             {
-                new{ likeId = Guid.NewGuid(), likedPostId = Guid.NewGuid() },
-                new{ likeId = Guid.NewGuid(), likedPostId = Guid.NewGuid() },
-                new{ likeId = Guid.NewGuid(), likedPostId = Guid.NewGuid() }
-            };
-            return Ok(likes);
+                new
+                {
+                    LikeId = Guid.NewGuid(),
+                    UserId = userId ?? Guid.NewGuid(),
+                    TweetId = tweetId ?? Guid.NewGuid(),
+                    CreatedAt = DateTime.UtcNow.AddMinutes(-30),
+                },
+                new
+                {
+                    LikeId = Guid.NewGuid(),
+                    UserId = userId ?? Guid.NewGuid(),
+                    TweetId = tweetId ?? Guid.NewGuid(),
+                    CreatedAt = DateTime.UtcNow.AddMinutes(-10),
+                },
+            });
         }
 
-
-
-        // GET: api/Likes/User/{userId}
-        [HttpGet("user/{userId}")]
-        public IActionResult GetLikesByUserId(Guid userId)
+        // GET /api/likes/{id}
+        [HttpGet("{id}")]
+        public IActionResult GetLikeById([FromRoute] Guid id)
         {
-            var likes = new List<object>
+            return Ok(new
             {
-                new{ likeId = Guid.NewGuid(), likedPostId = Guid.NewGuid(), userId = userId },
-                new{ likeId = Guid.NewGuid(), likedPostId = Guid.NewGuid(), userId = userId },
-                new{ likeId = Guid.NewGuid(), likedPostId = Guid.NewGuid(), userId = userId }
-            };
-            return Ok(likes);
+                LikeId = id,
+                UserId = Guid.NewGuid(),
+                TweetId = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+            });
         }
 
-
-        // GET: api/Likes/Post/{postId}
-        [HttpGet("post/{postId}")]
-        public IActionResult GetLikesByPostId(Guid postId)
+        // POST /api/likes
+        [HttpPost]
+        public IActionResult CreateLike()
         {
-            var likes = new List<object>
+            return Ok(new
             {
-                new{ likeId = Guid.NewGuid(), likedPostId = postId, userId = Guid.NewGuid() },
-                new{ likeId = Guid.NewGuid(), likedPostId = postId, userId = Guid.NewGuid() },
-                new{ likeId = Guid.NewGuid(), likedPostId = postId, userId = Guid.NewGuid() }
-            };
-            return Ok(likes);
+                LikeId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                TweetId = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+            });
+        }
+
+        // DELETE /api/likes/{id}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteLike([FromRoute] Guid id)
+        {
+            return Ok(new
+            {
+                LikeId = id,
+                Message = "Like removed successfully.",
+            });
         }
     }
 }

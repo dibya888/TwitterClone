@@ -1,50 +1,75 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace TwitterClone.Api.Controllers
 {
+
+    // api/bookmarks
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class BookmarksController : ControllerBase
     {
-        // POST: api/Bookmarks
+
+        public BookmarksController() { }
+
+
+        // GET /api/bookmarks?userId={userId}
+        [HttpGet]
+        public IActionResult GetBookmarks([FromQuery] Guid? userId)
+        {
+            return Ok(new List<object>
+            {
+                new
+                {
+                    BookmarkId = Guid.NewGuid(),
+                    UserId = userId ?? Guid.NewGuid(),
+                    TweetId = Guid.NewGuid(),
+                    CreatedAt = DateTime.UtcNow.AddDays(-2),
+                },
+                new
+                {
+                    BookmarkId = Guid.NewGuid(),
+                    UserId = userId ?? Guid.NewGuid(),
+                    TweetId = Guid.NewGuid(),
+                    CreatedAt = DateTime.UtcNow.AddDays(-1),
+                },
+            });
+        }
+
+        // GET /api/bookmarks/{id}
+        [HttpGet("{id}")]
+        public IActionResult GetBookmarkById([FromRoute] Guid id)
+        {
+            return Ok(new
+            {
+                BookmarkId = id,
+                UserId = Guid.NewGuid(),
+                TweetId = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+            });
+        }
+
+        // POST /api/bookmarks
         [HttpPost]
-        public IActionResult createBookmark()
+        public IActionResult CreateBookmark()
         {
             return Ok(new
             {
-                bookmarkId = Guid.NewGuid(),
-                message = "Bookmark created successfully!"
+                BookmarkId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                TweetId = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
             });
         }
 
-
-        // GET: api/Bookmarks/{bookmarkId}
-        [HttpGet("{bookmarkId}")]
-        public IActionResult GetBookmarkById(Guid bookmarkId)
+        // DELETE /api/bookmarks/{id}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteBookmark([FromRoute] Guid id)
         {
             return Ok(new
             {
-                bookmarkId = bookmarkId,
-                message = "Bookmark details retrieved successfully!"
+                BookmarkId = id,
+                Message = "Bookmark removed successfully.",
             });
-        }
-
-
-        // DELETE: api/Bookmarks/{bookmarkId}
-        [HttpDelete("{bookmarkId}")]
-        public IActionResult DeleteBookmark(Guid bookmarkId)
-        {
-            return Ok(new
-            {
-                bookmarkId = bookmarkId,
-                message = "Bookmark deleted successfully!"
-            });
-        }
-
-        public BookmarksController()
-        {
         }
     }
 }

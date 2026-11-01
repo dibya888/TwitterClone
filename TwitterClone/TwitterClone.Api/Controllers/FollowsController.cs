@@ -1,90 +1,113 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace TwitterClone.Api.Controllers
 {
+
+    // api/follows
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class FollowsController : ControllerBase
     {
-        public FollowsController()
-        {
-        }
+
+        public FollowsController() { }
 
 
-        // POST: api/Follows
-        [HttpPost]
-        public IActionResult FollowUser()
-        {
-            return Ok(new
-            {
-                followId = Guid.NewGuid(),
-                message = "User followed successfully!"
-            });
-        }
-
-        // DELETE: api/Follows/{followId}
-        [HttpDelete("{followId}")]
-        public IActionResult UnfollowUser(Guid followId)
-        {
-            return Ok(new
-            {
-                followId = followId,
-                message = "User unfollowed successfully!"
-            });
-        }
-
-        // GET: api/Follows/{followId}
-        [HttpGet("{followId}")]
-        public IActionResult GetFollowById(Guid followId)
-        {
-            return Ok(new
-            {
-                followId = followId,
-                message = "Follow details retrieved successfully!"
-            });
-        }
-
-
-        // GET: api/Follows
+        // GET /api/follows?followerId={followerId}&followingId={followingId}
         [HttpGet]
-        public IActionResult GetFollows()
+        public IActionResult GetFollows([FromQuery] Guid? followerId, [FromQuery] Guid? followingId)
         {
-            var follows = new List<object>
+            return Ok(new List<object>
             {
-                new{ followId = Guid.NewGuid(), followedUserId = Guid.NewGuid() },
-                new{ followId = Guid.NewGuid(), followedUserId = Guid.NewGuid() },
-                new{ followId = Guid.NewGuid(), followedUserId = Guid.NewGuid() }
-            };
-            return Ok(follows);
+                new
+                {
+                    FollowId = Guid.NewGuid(),
+                    FollowerId = followerId ?? Guid.NewGuid(),
+                    FollowingId = followingId ?? Guid.NewGuid(),
+                    CreatedAt = DateTime.UtcNow.AddDays(-7),
+                },
+                new
+                {
+                    FollowId = Guid.NewGuid(),
+                    FollowerId = followerId ?? Guid.NewGuid(),
+                    FollowingId = followingId ?? Guid.NewGuid(),
+                    CreatedAt = DateTime.UtcNow.AddDays(-1),
+                },
+            });
         }
 
-
-        // GET: api/Follows/Followers
-        [HttpGet("followers")]
-        public IActionResult GetFollowers()
+        // GET /api/follows/{id}
+        [HttpGet("{id}")]
+        public IActionResult GetFollowById([FromRoute] Guid id)
         {
-            var followers = new List<object>
+            return Ok(new
             {
-                new{ followerId = Guid.NewGuid(), followerUserId = Guid.NewGuid() },
-                new{ followerId = Guid.NewGuid(), followerUserId = Guid.NewGuid() },
-                new{ followerId = Guid.NewGuid(), followerUserId = Guid.NewGuid() }
-            };
-            return Ok(followers);
+                FollowId = id,
+                FollowerId = Guid.NewGuid(),
+                FollowingId = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+            });
         }
 
-        // GET: api/Follows/Following
-        [HttpGet("following")]
-        public IActionResult GetFollowing()
+        // GET /api/follows/followers/{userId}
+        [HttpGet("followers/{userId}")]
+        public IActionResult GetFollowers([FromRoute] Guid userId)
         {
-            var following = new List<object>
+            return Ok(new List<object>
             {
-                new{ followingId = Guid.NewGuid(), followingUserId = Guid.NewGuid() },
-                new{ followingId = Guid.NewGuid(), followingUserId = Guid.NewGuid() },
-                new{ followingId = Guid.NewGuid(), followingUserId = Guid.NewGuid() }
-            };
-            return Ok(following);
+                new
+                {
+                    UserId = Guid.NewGuid(),
+                    UserName = "follower1",
+                },
+                new
+                {
+                    UserId = Guid.NewGuid(),
+                    UserName = "follower2",
+                },
+            });
+        }
+
+        // GET /api/follows/following/{userId}
+        [HttpGet("following/{userId}")]
+        public IActionResult GetFollowing([FromRoute] Guid userId)
+        {
+            return Ok(new List<object>
+            {
+                new
+                {
+                    UserId = Guid.NewGuid(),
+                    UserName = "following1",
+                },
+                new
+                {
+                    UserId = Guid.NewGuid(),
+                    UserName = "following2",
+                },
+            });
+        }
+
+        // POST /api/follows
+        [HttpPost]
+        public IActionResult CreateFollow()
+        {
+            return Ok(new
+            {
+                FollowId = Guid.NewGuid(),
+                FollowerId = Guid.NewGuid(),
+                FollowingId = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+            });
+        }
+
+        // DELETE /api/follows/{id}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteFollow([FromRoute] Guid id)
+        {
+            return Ok(new
+            {
+                FollowId = id,
+                Message = "Unfollowed successfully.",
+            });
         }
     }
 }
